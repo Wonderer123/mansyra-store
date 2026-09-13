@@ -114,7 +114,8 @@ Mansyra_beta/
 │   ├── checkout.html          Checkout and coupons
 │   ├── orders.html            Order history
 │   ├── help_and_support.html  FAQ, shipping, returns, privacy
-│   ├── css/  js/  images/
+│   ├── css/theme.css          Shared brand theme (fonts, colours, layout) loaded by every page
+│   ├── css/cart.css  js/cart.js  images/
 ├── newusers.json              Registered users
 ├── cart.json                  Carts, keyed by user
 ├── orders.json                Orders, keyed by user

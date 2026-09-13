@@ -2,6 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
+    <link rel="icon" type="image/jpeg" href="/images/mansyra3.jpg">
 		<title>Mansyra - Beauty & Cosmetics</title>
 		<link rel="stylesheet" href="/css/cart.css">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,6 @@
 				margin:0;
 				padding:0;
 				box-sizing:border-box;
-				font-family:'Segoe UI', sans-serif;
 			}
 			body{
 				background:#fff;
@@ -952,19 +952,15 @@
 			.logo-letter:nth-child(7){animation-delay:1.2s;}
 
 		</style>
+		<link rel="stylesheet" href="/css/theme.css">
 	</head>
 	<body>
 		<header class="navbar">
-			<div class="logo">
-				<span class="logo-letter m">M</span>
-				<span class="logo-letter a">a</span>
-				<span class="logo-letter n">n</span>
-				<span class="logo-letter s">s</span>
-				<span class="logo-letter y">y</span>
-				<span class="logo-letter r">r</span>
-				<span class="logo-letter a2">a</span>
-			</div>
-			<nav>
+			<a href="/goof.html" class="logo">
+				<span class="logo-mark">Mansyra</span>
+				<span class="logo-sub">Beauty</span>
+			</a>
+			<nav id="main-nav">
 				<a href="#">Home</a>
 				<a href="#shop">Shop</a>
 				<a href="#about">About Us</a>
@@ -975,16 +971,37 @@
 				<a href="/orders.html">Orders</a>
 				<span id="user-area"></span>
 			</nav>
-			<div class="cart-wrapper" id="cart-icon">
-				🛒
-				<span class="cart-badge" id="cart-badge">0</span>
+			<div class="header-right">
+				<div class="cart-wrapper" id="cart-icon" title="Cart">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l1 13H5L6 7z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>
+					<span class="cart-badge" id="cart-badge">0</span>
+				</div>
+				<button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
+					<span></span><span></span><span></span>
+				</button>
 			</div>
 		</header>
 		<section class="hero">
 			<div class="overlay">
-				<h1>Beauty Delivered to Your Doorstep</h1>
-				<p>Premium Cosmetics, skin-loving formulas, made to glow✨</p>
-				<a href="#shop" class="btn">SHOP NOW</a>
+				<div class="hero-copy">
+					<span class="eyebrow">✨ New season · Up to 40% off</span>
+					<h1>Beauty Delivered <em>to Your Doorstep</em></h1>
+					<p>Premium cosmetics with skin-loving formulas and trend-inspired shades, made to glow on every Indian skin tone.</p>
+					<div class="hero-actions">
+						<a href="#shop" class="btn">Shop Now</a>
+						<a href="#offer" class="btn btn-ghost">View Offers</a>
+					</div>
+					<ul class="hero-perks">
+						<li>Dermatologically tested</li>
+						<li>Cruelty-free</li>
+						<li>Free delivery on ₹999+</li>
+					</ul>
+				</div>
+				<div class="hero-visual">
+					<div class="hero-frame"><img src="/images/mansyra1.jpg" alt="Mansyra Beauty"></div>
+					<div class="hero-chip chip-a"><img src="/images/lipstick.jpg" alt=""><span>More Than Glitter Lipstick<br><b>₹499</b></span></div>
+					<div class="hero-chip chip-b"><img src="/images/perfume1.jpg" alt=""><span>She Leads Eau De Parfum<br><b>₹999</b></span></div>
+				</div>
 			</div>
 		</section>
 		<section class="best-seller" id="shop">
@@ -1569,7 +1586,7 @@
 				<div class="reviews-cards">
 					<div class="review-card">
 						<div class="review-top">
-							<img src="https://i.pravatar.cc/100?img=32">
+							<div class="avatar">P</div>
 						<div>
 								<h4>Priya Sharma</h4>
 								<span>Verified Buyer</span>
@@ -1580,7 +1597,7 @@
 					</div>
 					<div class="review-card">
 						<div class="review-top">
-							<img src="https://i.pravatar.cc/100?img=47">
+							<div class="avatar">A</div>
 							<div>
 								<h4>Ananya Gupta</h4>
 								<span>Verified Buyer</span>
@@ -1591,7 +1608,7 @@
 					</div>
 					<div class="review-card">
 						<div class="review-top">
-							<img src="https://i.pravatar.cc/100?img=12">
+							<div class="avatar">R</div>
 							<div>
 								<h4>Riya Verma</h4>
 								<span>Verified Buyer</span>
@@ -1732,33 +1749,22 @@
             window.onload = renderUserArea;
 		</script>
 		<script>
-
-			const logo = document.querySelector(".logo");
-            const letters = document.querySelectorAll(".logo-letter");
-
-            function runAnimation(){
-
-                letters.forEach(letter=>{
-                    let random = Math.random() > 0.5 ? "-80px" : "80px";
-                    letter.style.setProperty("--startY", random);
-                });
-
-                logo.classList.remove("animate-logo");
-
-                void logo.offsetWidth;
-
-                logo.classList.add("animate-logo");
-
-            }
-
-            /* first run */
-            runAnimation();
-
-            /* repeat every 9 seconds
-            3 sec animation + 6 sec stable
-            */
-            setInterval(runAnimation,7000);
-
+			/* mobile menu toggle */
+			(function(){
+				const toggle = document.getElementById("nav-toggle");
+				const nav = document.getElementById("main-nav");
+				if(!toggle || !nav) return;
+				toggle.addEventListener("click", function(){
+					const open = nav.classList.toggle("open");
+					toggle.setAttribute("aria-expanded", open ? "true" : "false");
+				});
+				nav.querySelectorAll("a").forEach(function(a){
+					a.addEventListener("click", function(){
+						nav.classList.remove("open");
+						toggle.setAttribute("aria-expanded", "false");
+					});
+				});
+			})();
 		</script>
 		<div class="flash-popup" id="flash-popup">
 			1 Item Added to Cart
