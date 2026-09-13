@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: mansyra
+    runtime: docker
+    plan: free
+    healthCheckPath: /login.html

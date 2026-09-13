@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>Orders History</title>
+
+    <style>
+
+        body{
+        font-family:'Segoe UI';
+        background:#fff5f9;
+        padding:40px;
+        }
+
+        h1{
+        text-align:center;
+        color:#ff2f7d;
+        margin-bottom:20px;
+        }
+
+        #orders{
+        max-width:900px;
+        margin:auto;
+        }
+
+        .order{
+        background:white;
+        padding:20px;
+        border-radius:15px;
+        margin-bottom:25px;
+        box-shadow:0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .order-header{
+        display:flex;
+        justify-content:space-between;
+        font-weight:bold;
+        margin-bottom:10px;
+        }
+
+        .total{
+        color:#ff2f7d;
+        font-size:18px;
+        font-weight:bold;
+        }
+
+        button{
+        margin-top:10px;
+        padding:10px 20px;
+        border:none;
+        border-radius:25px;
+        background:#ff2f7d;
+        color:white;
+        cursor:pointer;
+        }
+
+        button:hover{
+        background:#e91e63;
+        }
+
+        .empty{
+        text-align:center;
+        font-size:20px;
+        margin-top:50px;
+        color:#555;
+        }
+
+        .home-container{
+        text-align:center;
+        margin-bottom:25px;
+        }
+
+        .home-btn{
+        padding:12px 28px;
+        background:#ff2f7d;
+        color:white;
+        border:none;
+        border-radius:30px;
+        font-size:16px;
+        cursor:pointer;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<h1>Mansyra</h1>
+
+<div class="home-container">
+    <button class="home-btn" onclick="goHome()">🏠 Home</button>
+</div>
+
+<div id="orders"></div>
+
+<script>
+
+    fetch("/api/orders?user="+localStorage.getItem("user"))
+
+    .then(r=>r.json())
+
+    .then(data=>{
+
+    const container=document.getElementById("orders");
+
+    if(!data || data.length===0){
+
+    container.innerHTML="<p class='empty'>No Order History Available</p>";
+
+    return;
+
+    }
+
+    data.forEach(order=>{
+
+    let html=`
+
+    <div class="order">
+
+    <div class="order-header">
+
+    <span>Order ID: ${order.id}</span>
+
+    <span>${order.date}</span>
+
+    </div>
+
+    <p><b>Customer:</b> ${order.user}</p>
+
+    <p><b>Address:</b> ${order.address}</p>
+
+    `;
+
+    order.items.forEach(item=>{
+    html+=`<p>${item.name} - ₹${item.price}</p>`;
+    });
+
+    html+=`
+
+    <hr>
+
+    <p>Subtotal : ₹${order.subtotal || 0}</p>
+
+    <p>Tax : ₹${order.tax || 0}</p>
+
+    <p>Delivery : ₹${order.delivery || 0}</p>
+
+    ${order.coupon ? `<p>Coupon (${order.coupon}) - ₹${order.discount}</p>` : ""}
+
+    <p class="total">Total : ₹${order.total || 0}</p>
+
+    <button onclick='generatePDF(${JSON.stringify(order)})'>Download Invoice</button>
+
+    </div>
+
+    `;
+
+    container.innerHTML+=html;
+
+    });
+
+    });
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+
+    window.generatePDF = async function(order){
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+
+    /* 🔥 TITLE */
+
+    doc.setFontSize(24);
+    doc.setTextColor(255, 47, 125);
+    doc.text("Mansyra", pageWidth/2, 20, null, null, "center");
+
+    doc.setTextColor(0,0,0);
+    doc.setFontSize(12);
+
+    /* ================= HEADER GRID (2x2) ================= */
+
+    let y = 40;
+
+    doc.setFont(undefined, "bold");
+
+    /* LEFT SIDE */
+    doc.text("Customer:", 20, y);
+    doc.text("Order ID:", 20, y+10);
+
+    /* RIGHT SIDE */
+    doc.text("Date:", 110, y);
+    doc.text("Address:", 110, y+10);
+
+    doc.setFont(undefined, "normal");
+
+    /* VALUES */
+    doc.text(order.user, 45, y);
+    doc.text(order.id, 45, y+10);
+
+    doc.text(order.date, 135, y);
+    doc.text(order.address, 135, y+10);
+
+    y += 25;
+
+    /* ================= TABLE HEADER ================= */
+
+    doc.setFont(undefined, "bold");
+
+    doc.text("Item", 40, y);
+    doc.text("Price", 140, y);
+
+    y += 5;
+    doc.line(30, y, 180, y);
+
+    y += 10;
+
+    doc.setFont(undefined, "normal");
+
+    /* ================= ITEMS ================= */
+
+    order.items.forEach(item=>{
+
+    /* 🔥 AUTO PAGE BREAK */
+    if(y > 270){
+    doc.addPage();
+    y = 20;
+    }
+
+    /* SHORT TEXT */
+    let name = item.name.length > 30
+    ? item.name.substring(0,30)+"..."
+    : item.name;
+
+    /* CENTERED TABLE LOOK */
+    doc.text(name, 40, y);
+    doc.text("Rs. "+item.price, 140, y);
+
+    y += 10;
+
+    });
+
+    /* ================= LINE ================= */
+
+    y += 5;
+    doc.line(30, y, 180, y);
+    y += 10;
+
+    /* ================= TOTAL SECTION ================= */
+
+    doc.setFont(undefined, "bold");
+
+    /* RIGHT SIDE ALIGN */
+    let x = 120;
+
+    doc.text("Subtotal : Rs. "+(order.subtotal||0), x, y); y+=8;
+    doc.text("Tax : Rs. "+(order.tax||0), x, y); y+=8;
+    doc.text("Delivery : Rs. "+(order.delivery||0), x, y); y+=8;
+
+    /* COUPON */
+    if(order.coupon){
+    doc.text("Coupon ("+order.coupon+") : -Rs. "+order.discount, x, y);
+    y+=8;
+    }
+
+    /* TOTAL */
+
+    doc.setFontSize(16);
+    doc.setTextColor(255, 47, 125);
+
+    doc.text("Total : Rs. "+(order.total||0), x, y);
+
+    doc.setTextColor(0,0,0);
+
+    /* ================= SAVE ================= */
+
+    await doc.save("mansyra-"+order.id+".pdf");
+
+    }
+
+</script>
+
+
+<script>
+
+    function goHome(){
+    window.location.href="goof.html";
+    }
+
+</script>
+
+</body>
+</html>

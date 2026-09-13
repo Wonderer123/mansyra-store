@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Mansyra - Login / Register</title>
+
+    <style>
+
+        body{
+        margin:0;
+        font-family:Arial,sans-serif;
+        background:#fff5f9;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+        flex-direction:column;
+        }
+
+        /* HOME BUTTON */
+
+        .top-bar{
+        position:fixed;
+        top:20px;
+        left:20px;
+        }
+
+        .home-btn{
+        background:linear-gradient(45deg,#ff003c,#ff7a00);
+        color:white;
+        border:none;
+        padding:10px 18px;
+        border-radius:25px;
+        font-weight:bold;
+        cursor:pointer;
+        }
+
+        /* CONTAINER */
+
+        .container{
+        width:400px;
+        background:white;
+        border-radius:20px;
+        box-shadow:0 10px 30px rgba(0,0,0,0.1);
+        overflow:hidden;
+        padding-top:10px;
+        position:relative;   /* 🔥 VERY IMPORTANT */
+
+        }
+
+        /* TITLE */
+
+        .auth-logo{
+        text-align:center;
+        font-size:34px;
+        font-weight:bold;
+        margin:15px 0 5px 0;
+        letter-spacing:5px;
+
+        background:linear-gradient(45deg,black,#c2185b);
+        -webkit-background-clip:text;
+        color:transparent;
+        }
+
+        .auth-logo span{
+        display:inline-block;
+        opacity:0;
+        transform:translateY(40px);
+        }
+
+        /* ANIMATION */
+
+        @keyframes authPop{
+
+        0%{
+        color:red;
+        transform:translateY(-80px) scale(.4);
+        opacity:0;
+        }
+
+        40%{
+        color:orange;
+        }
+
+        70%{
+        color:pink;
+        }
+
+        100%{
+        transform:translateY(0) scale(1);
+        opacity:1;
+
+        background:linear-gradient(45deg,black,#c2185b);
+        -webkit-background-clip:text;
+        color:transparent;
+
+        }
+
+        }
+
+        /* TOGGLE */
+
+        .toggle{
+        display:flex;
+        position:relative;
+        background:#ffe0ef;
+        }
+
+        .toggle button{
+        flex:1;
+        padding:15px;
+        border:none;
+        background:none;
+        font-weight:bold;
+        cursor:pointer;
+        z-index:2;
+        }
+
+        .slider{
+        position:absolute;
+        width:50%;
+        height:100%;
+        background:hotpink;
+        border-radius:20px;
+        transition:0.4s ease;
+        }
+
+        /* FORMS */
+
+        .form{
+        padding:30px;
+        display:none;
+        animation:fadeIn 0.4s ease;
+        }
+
+        .form.active{
+        display:block;
+        }
+
+        input{
+        width:100%;
+        padding:12px;
+        margin-bottom:15px;
+        border-radius:30px;
+        border:1px solid #ddd;
+        box-sizing:border-box;
+        }
+
+        button.submit-btn{
+        width:100%;
+        padding:12px;
+        border-radius:30px;
+        border:none;
+        background:hotpink;
+        color:white;
+        font-weight:bold;
+        cursor:pointer;
+        box-sizing:border-box;
+        }
+
+        @keyframes fadeIn{
+        from{opacity:0;}
+        to{opacity:1;}
+        }
+
+        /* 🔥 LOGIN POPUP STYLING */
+
+        #login-popup{
+            position:absolute;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+
+            display:flex;
+            align-items:center;     /* ✅ vertical center */
+            justify-content:center; /* ✅ horizontal center */
+
+            z-index:10;
+        }
+
+        /* Dark blur only inside box */
+        #login-popup::before{
+            content:"";
+            position:absolute;
+            width:100%;
+            height:100%;
+            background:rgba(0,0,0,0.3);
+            backdrop-filter: blur(4px);
+            border-radius:20px;
+            z-index:-1;
+        }
+
+        /* Popup Box */
+        .popup-box{
+            background:linear-gradient(145deg,#ffffff,#fff0f6);
+            padding:30px;
+            border-radius:20px;
+            text-align:center;
+            width:320px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.15);
+            animation:popupFade 0.3s ease, popupScale 0.3s ease;
+        }
+
+        /* Message */
+        .popup-box p{
+            font-size:16px;
+            color:#333;
+            margin-bottom:20px;
+        }
+
+        /* Button */
+        .popup-box button{
+            background:linear-gradient(45deg,#ff2f7d,#ff6aa0);
+            color:white;
+            border:none;
+            padding:10px 25px;
+            border-radius:25px;
+            cursor:pointer;
+            font-weight:bold;
+            transition:0.3s;
+        }
+
+        .popup-box button:hover{
+            background:linear-gradient(45deg,#e91e63,#ff4081);
+            transform:scale(1.05);
+        }
+
+        /* Animation */
+        @keyframes popupFade{
+            from{
+                transform:scale(0.8);
+                opacity:0;
+            }
+            to{
+                transform:scale(1);
+                opacity:1;
+            }
+        }
+        @keyframes popupScale{
+            from{
+                transform:scale(0.8);
+            }
+            to{
+                transform:scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="top-bar">
+    <button class="home-btn" onclick="window.location.href='goof.html'">🏠 Home</button>
+</div>
+
+<div class="container">
+
+    <div class="auth-logo" id="authLogo"></div>
+
+    <div class="toggle">
+        <div class="slider" id="slider"></div>
+        <button onclick="showRegister()">Register</button>
+        <button onclick="showLogin()">Login</button>
+    </div>
+
+    <div class="form active" id="registerForm">
+
+        <h2 align="center">Create Account</h2>
+
+        <input type="text" id="regName" placeholder="Full Name">
+        <input type="email" id="regEmail" placeholder="Email">
+        <input type="text" id="regPhone" placeholder="Phone Number">
+        <input type="password" id="regPassword" placeholder="Password">
+
+        <button type="button" class="submit-btn" onclick="register()">Register</button>
+
+    </div>
+
+    <div class="form" id="loginForm">
+
+        <h2 align="center">Login</h2>
+
+        <input type="text" id="loginUser" placeholder="Email or Phone">
+        <input type="password" id="loginPassword" placeholder="Password">
+
+        <button type="button" class="submit-btn" onclick="login()">Login</button>
+
+    </div>
+
+</div>
+
+<script>
+
+    let currentText="LOGIN";
+    let animationTimer=null;
+
+    /* TEXT ANIMATION */
+
+    function animateAuth(text){
+
+    const logo=document.getElementById("authLogo");
+
+    logo.innerHTML="";
+
+    text.split("").forEach((letter,i)=>{
+
+    const span=document.createElement("span");
+
+    span.innerText=letter;
+
+    span.style.animation="authPop 0.7s ease forwards";
+    span.style.animationDelay=(i*0.15)+"s";
+
+    logo.appendChild(span);
+
+    });
+
+    }
+
+    /* LOOP ANIMATION */
+
+    function startLoop(){
+
+    if(animationTimer){
+    clearInterval(animationTimer);
+    }
+
+    animationTimer=setInterval(()=>{
+
+    animateAuth(currentText);
+
+    },5000);
+
+    }
+
+    /* PAGE LOAD */
+
+    window.onload=function(){
+
+    const registerActive=document.getElementById("registerForm").classList.contains("active");
+
+    if(registerActive){
+    currentText="REGISTER";
+    animateAuth("REGISTER");
+    }else{
+    currentText="LOGIN";
+    animateAuth("LOGIN");
+    }
+
+    startLoop();
+
+    }
+
+    /* TOGGLE FUNCTIONS */
+
+    function showRegister(){
+
+    document.getElementById("slider").style.left="0%";
+
+    document.getElementById("registerForm").classList.add("active");
+    document.getElementById("loginForm").classList.remove("active");
+
+    currentText="REGISTER";
+
+    animateAuth("REGISTER");
+
+    startLoop();
+
+    }
+
+    function showLogin(){
+
+    document.getElementById("slider").style.left="50%";
+
+    document.getElementById("registerForm").classList.remove("active");
+    document.getElementById("loginForm").classList.add("active");
+
+    currentText="LOGIN";
+
+    animateAuth("LOGIN");
+
+    startLoop();
+
+    }
+
+    /* REGISTER API */
+
+    function register(){
+
+    const data={
+    name:regName.value,
+    email:regEmail.value,
+    phone:regPhone.value,
+    password:regPassword.value
+    };
+
+    fetch("/api/register",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(data)
+    })
+    .then(res=>res.text())
+    .then(msg=>{
+    alert(msg);
+    showLogin();
+    });
+
+    }
+
+    /* LOGIN API */
+
+    function login(){
+
+    const data={
+    user:loginUser.value,
+    password:loginPassword.value
+    };
+
+    fetch("/api/login",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(data)
+    })
+    .then(res=>res.json())
+    .then(data=>{
+
+    if(data.status==="success"){
+
+    localStorage.setItem("token",data.token);
+    localStorage.setItem("user",data.user);
+
+    /* LOAD CART FROM SERVER */
+
+    fetch("/api/cart?user="+data.user)
+    .then(res=>res.json())
+    .then(cart=>{
+    localStorage.setItem("cart_"+data.user, JSON.stringify(cart.items || []));
+    window.location.href="goof.html";
+    })
+    .catch(()=>{
+    localStorage.setItem("cart_"+data.user, JSON.stringify([]));
+    window.location.href="goof.html";
+    });
+
+    }
+    else if(data.status==="wrong_password"){
+
+    showPopup("You Entered Wrong Login Credentials");
+
+    }
+    else if(data.status==="user_not_found"){
+
+    showPopup("User Not Found Please Register To Login");
+
+    }
+
+    });
+
+    }
+
+    function showPopup(message){
+
+    let popup=document.getElementById("login-popup");
+
+    if(!popup){
+
+    popup=document.createElement("div");
+    popup.id="login-popup";
+    popup.className="flash-popup";
+
+    document.querySelector(".container").appendChild(popup);
+    }
+
+    popup.innerHTML=`
+    <div class="popup-box">
+        <p>${message}</p>
+        <button onclick="document.getElementById('login-popup').style.display='none'">
+            OK
+        </button>
+    </div>
+    `;
+
+    popup.style.display="block";
+
+    }
+
+</script>
+
+</body>
+</html>

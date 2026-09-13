@@ -1,0 +1,20 @@
+[
+    {
+        "password": "mansi@123",
+        "phone": "1234567890",
+        "name": "Mansi",
+        "email": "mansi@mansyra.com"
+    },
+    {
+        "password": "sample123#",
+        "phone": "9999999999",
+        "name": "Sohail Khan",
+        "email": "sohail@sohail.com"
+    },
+    {
+        "password": "sample",
+        "phone": "123456789",
+        "name": "Sample",
+        "email": "sample.com"
+    }
+]

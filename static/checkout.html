@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>Checkout</title>
+
+    <style>
+
+        /* 🔥 BODY */
+        body{
+            font-family:'Segoe UI';
+            background:#fff5f9;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            height:100vh;
+        }
+
+        /* 🔥 BRAND */
+        .brand{
+            color:#ff2f7d;
+            font-size:34px;
+            font-weight:bold;
+            margin-bottom:20px;
+        }
+
+        /* 🔥 MAIN BOX */
+        .box{
+            background:white;
+            padding:40px;
+            border-radius:20px;
+            width:420px;
+            text-align:center;
+            box-shadow:0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        /* 🔥 TOTAL TEXT */
+        .total{
+            font-size:32px;
+            font-weight:bold;
+            color:#ff2f7d;
+            margin:20px 0;
+        }
+
+        /* 🔥 INPUT + BUTTON COMMON */
+        input,select,button{
+            width:100%;
+            padding:12px;
+            margin-top:12px;
+            border-radius:30px;
+            border:1px solid #ddd;
+            font-size:15px;
+            box-sizing:border-box;
+        }
+
+        /* 🔥 MAIN BUTTON */
+        button{
+            background:#ff2f7d;
+            color:white;
+            border:none;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        button:hover{
+            background:#e91e63;
+        }
+
+        /* 🔥 POPUP */
+        .popup{
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            background:rgba(0,0,0,0.4);
+            display:none;
+            align-items:center;
+            justify-content:center;
+            z-index:9999;
+        }
+
+        .popup-box{
+            background:white;
+            padding:25px;
+            border-radius:15px;
+            text-align:center;
+            width:320px;
+            box-shadow:0 6px 18px rgba(0,0,0,0.2);
+        }
+
+        .popup-box button{
+            background:#ff2f7d;
+            color:white;
+            border:none;
+            padding:10px 20px;
+            border-radius:25px;
+            cursor:pointer;
+        }
+
+        /* 🔥 NEON SUCCESS TICK */
+        .tick{
+            font-size:60px;
+            color:#00ff88;
+            margin:15px 0;
+            display:none;
+            text-shadow:
+                0 0 5px #00ff88,
+                0 0 10px #00ff88,
+                0 0 20px #00ff88,
+                0 0 40px #00ff88;
+            animation:popTick 0.5s ease;
+        }
+
+        @keyframes popTick{
+            0%{transform:scale(0);opacity:0;}
+            70%{transform:scale(1.2);}
+            100%{transform:scale(1);opacity:1;}
+        }
+
+        /* 🔥 TOTAL DROPDOWN */
+        .total-dropdown{
+            background:#fff0f6;
+            border-radius:15px;
+            padding:15px;
+            margin-bottom:15px;
+            box-shadow:0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .total-header{
+            font-weight:bold;
+            cursor:pointer;
+            font-size:16px;
+            color:#ff2f7d;
+        }
+
+        .total-details{
+            display:none;
+            margin-top:10px;
+            font-size:14px;
+            color:#444;
+        }
+
+        .total-details p{
+            margin:5px 0;
+        }
+
+        /* 🔥 COUPON BOX */
+        .coupon-box{
+            margin:15px 0;
+            padding:15px;
+            background:white;
+            border-radius:15px;
+            box-shadow:0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        /* 🔥 INPUT ROW */
+        #coupon-input{
+            display:flex;
+            gap:8px;
+            align-items:center;
+        }
+
+        /* INPUT FIELD */
+        #coupon-input input{
+            flex:1;
+            padding:10px 12px;
+            border-radius:20px;
+            border:1px solid #ccc;
+            outline:none;
+            font-size:14px;
+        }
+
+        /* APPLY BUTTON */
+        #coupon-input button{
+            width:auto;
+            padding:6px 14px;
+            font-size:13px;
+            border-radius:15px;
+        }
+
+        /* 🔥 APPLIED COUPON */
+        #coupon-applied{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:10px;
+            background:#fff0f6;
+            padding:8px 12px;
+            border-radius:15px;
+            margin-top:5px;
+        }
+
+        /* TEXT */
+        #couponLine{
+            font-size:14px;
+            color:#ff2f7d;
+            font-weight:500;
+        }
+
+        /* REMOVE BUTTON */
+        #coupon-applied button{
+            width:auto;
+            padding:5px 12px;
+            font-size:12px;
+            border-radius:15px;
+        }
+
+        /* 🔥 ERROR */
+        #couponError{
+            color:red;
+            font-size:13px;
+            margin-top:5px;
+        }
+
+        /* 🔥 COUPON PILLS */
+        #coupon-pills{
+            margin-top:8px;
+        }
+
+        /* PILL STYLE */
+        .pill{
+            display:inline-block;
+            background:#ffe0ec;
+            color:#ff2f7d;
+            padding:6px 12px;
+            border-radius:20px;
+            font-size:12px;
+            margin-right:6px;
+            margin-top:5px;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .pill:hover{
+            background:#ff2f7d;
+            color:white;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<h1 class="brand">Mansyra</h1>
+
+<div class="box">
+
+    <h2>Checkout</h2>
+
+    <p id="totalAmount" class="total"></p>
+
+    <!-- 🔥 TOTAL DROPDOWN -->
+    <div class="total-dropdown">
+
+        <div class="total-header" onclick="toggleTotal()">
+            Total: ₹<span id="finalTotal">0</span> ▼
+        </div>
+
+        <div class="total-details" id="totalDetails">
+
+            <p>Subtotal: ₹<span id="subtotal">0</span></p>
+            <p>Tax: ₹<span id="tax">0</span></p>
+            <p>Delivery: ₹<span id="delivery">0</span></p>
+            <p id="discountRow" style="display:none;">Discount: -₹<span id="discount">0</span></p>
+
+        </div>
+
+    </div>
+
+    <!-- 🔥 COUPON -->
+    <div class="coupon-box">
+        <div id="coupon-pills" style="margin-top:8px; display:none;">
+
+            <span class="pill" onclick="fillCoupon('GLOW40')">GLOW40</span>
+            <span class="pill" onclick="fillCoupon('BEAUTY200')">BEAUTY200</span>
+            <span class="pill" onclick="fillCoupon('BUY2GET1')">BUY2GET1</span>
+
+        </div>
+
+        <div id="coupon-input">
+            <input id="couponCode" placeholder="Enter Coupon Code">
+            <button onclick="applyCoupon()">Apply</button>
+        </div>
+
+        <div id="coupon-applied" style="display:none;">
+            <p id="couponLine"></p>
+            <button onclick="removeCoupon()">Remove</button>
+        </div>
+
+        <p id="couponError"></p>
+
+    </div>
+
+    <input id="address" placeholder="Enter Delivery Address" required>
+
+    <select id="paymentMethod">
+        <option value="cod">Cash On Delivery</option>
+    </select>
+
+    <button onclick="placeOrder()">Place Order</button>
+
+</div>
+
+<script>
+
+    const user = localStorage.getItem("user");
+
+    let appliedCoupon = null;
+    let discount = 0;
+
+    function getCart(){
+        return JSON.parse(localStorage.getItem("cart_"+user)) || [];
+    }
+
+    function calculate(){
+
+        let cart = getCart();
+
+        let subtotal = 0;
+        cart.forEach(i=> subtotal += i.price);
+
+        let tax = Math.round(subtotal * 0.18);
+        let delivery = cart.length ? 100 : 0;
+
+        let total = subtotal + tax + delivery - (discount || 0);
+
+        document.getElementById("subtotal").innerText = subtotal;
+        document.getElementById("tax").innerText = tax;
+        document.getElementById("delivery").innerText = delivery;
+        document.getElementById("finalTotal").innerText = total;
+
+        return {subtotal,tax,delivery,total};
+    }
+
+    function toggleTotal(){
+        let box = document.getElementById("totalDetails");
+        box.style.display = box.style.display==="block"?"none":"block";
+    }
+
+    let popupType = ""; // ✅ controls behavior
+
+    function placeOrder(){
+
+        const address = document.getElementById("address").value;
+        const payment = document.getElementById("paymentMethod").value;
+
+        if(!address){
+            popupType = "error";
+            showPopup("Please Enter Delivery Address");
+            return;
+        }
+
+        const cartItems = JSON.parse(localStorage.getItem("cart_"+user)) || [];
+
+        let subtotal = 0;
+        cartItems.forEach(item => {
+            subtotal += item.price;
+        });
+
+        let tax = Math.round(subtotal * 0.18);
+        let delivery = 100;
+        let calc = calculate();
+        const order = {
+            items:cartItems,
+            subtotal:calc.subtotal,
+            tax:calc.tax,
+            delivery:calc.delivery,
+            total:calc.total,
+
+            coupon: appliedCoupon,      // ✅ ADDED
+            discount: discount,         // ✅ ADDED
+
+            address:address,
+            payment:payment,
+            date:new Date().toLocaleString(),
+            id:"ORD"+Date.now(),
+            user:user
+        };
+
+        fetch("/api/orders",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({user:user,order:order})
+        })
+        .then(()=>{
+            popupType = "success";
+            showPopup("Order Placed Successfully");
+
+            localStorage.removeItem("cart_"+user);
+
+            fetch("/api/cart/clear",{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({user:user})
+            });
+        });
+    }
+
+</script>
+
+<script>
+
+    function showPopup(message){
+
+        document.getElementById("popup-text").innerText = message;
+
+        const tick = document.getElementById("tick");
+
+        if(message === "Order Placed Successfully"){
+            tick.style.display = "block";
+        } else {
+            tick.style.display = "none";
+        }
+
+        document.getElementById("popup").style.display = "flex";
+    }
+
+    function popupAction(){
+
+        document.getElementById("popup").style.display = "none";
+
+        if(popupType === "success"){
+            window.location.href = "goof.html";
+        }
+    }
+
+</script>
+<script>
+    function applyCoupon(){
+
+    let code = document.getElementById("couponCode").value.toUpperCase();
+    let cart = getCart();
+
+    let subtotal = cart.reduce((s,i)=>s+i.price,0);
+
+    /* ❌ EMPTY CART */
+    if(cart.length === 0){
+    showError("Cart is empty");
+    return;
+    }
+
+    /* ================= GLOW40 ================= */
+    if(code==="GLOW40"){
+
+    // ✅ ALL ITEMS MUST BE LIP CATEGORY
+    let allLip = cart.every(i => i.category === "lip");
+
+    if(!allLip){
+    showError("All items must be Lipstick category");
+    return;
+    }
+
+    // ✅ MIN ORDER VALUE
+    if(subtotal < 2000){
+    showError("Minimum ₹2000 required for GLOW40");
+    return;
+    }
+
+    // ✅ 40% DISCOUNT WITH MAX LIMIT
+    let rawDiscount = subtotal * 0.40;
+    discount = Math.min(Math.round(rawDiscount), 500);
+
+    }
+
+    /* ================= BEAUTY200 ================= */
+    else if(code==="BEAUTY200"){
+
+    if(subtotal < 999){
+    showError("Minimum ₹999 required");
+    return;
+    }
+
+    discount = 200;
+
+    }
+
+    /* ================= BUY2GET1 ================= */
+    else if(code==="BUY2GET1"){
+
+    // ✅ ALL ITEMS MUST BE SKINCARE
+    let allSkin = cart.every(i => i.category === "skincare");
+
+    if(!allSkin){
+    showError("All items must be Skincare category");
+    return;
+    }
+
+    if(cart.length < 3){
+    showError("Add at least 3 skincare items");
+    return;
+    }
+
+    discount = Math.min(...cart.map(i=>i.price));
+
+    }
+
+    /* ================= INVALID ================= */
+    else{
+    showError("Invalid Coupon");
+    return;
+    }
+
+    /* ✅ APPLY */
+
+    appliedCoupon = code;
+
+    /* UI UPDATE */
+
+    document.getElementById("coupon-input").style.display="none";
+    document.getElementById("coupon-applied").style.display="flex";
+
+    document.getElementById("couponLine").innerText =
+    `Coupon Applied (${code}) - ₹${discount}`;
+
+    document.getElementById("discountRow").style.display="block";
+    document.getElementById("discount").innerText = discount;
+
+    showError("");
+
+    calculate();
+    }
+</script>
+<script>
+    function removeCoupon(){
+
+    appliedCoupon = null;
+    discount = 0;
+
+    document.getElementById("coupon-input").style.display="block";
+    document.getElementById("coupon-applied").style.display="none";
+    document.getElementById("discountRow").style.display="none";
+
+    calculate();
+
+    }
+</script>
+<script>
+    function showError(msg){
+    document.getElementById("couponError").innerText = msg;
+    }
+    window.addEventListener("storage", ()=>{
+    removeCoupon();
+    });
+    window.onload = function(){
+        calculate();
+    };
+    document.getElementById("couponCode").addEventListener("focus", ()=>{
+    document.getElementById("coupon-pills").style.display="block";
+    });
+    function fillCoupon(code){
+    document.getElementById("couponCode").value = code;
+    }
+</script>
+
+<div id="popup" class="popup">
+    <div class="popup-box">
+        <p id="popup-text"></p>
+        <div id="tick" class="tick">✔</div>
+        <button onclick="popupAction()">OK</button>
+    </div>
+</div>
+
+</body>
+</html>

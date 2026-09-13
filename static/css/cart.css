@@ -1,0 +1,217 @@
+/* Cart Icon Container */
+.cart-wrapper {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 28px;
+}
+
+/* Pink Badge */
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: hotpink;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Flying Animation */
+.fly-image {
+    position: fixed;
+    z-index: 9999;
+    transition: all 0.7s ease-in-out;
+    pointer-events: none;
+}
+
+/* Flash Popup */
+.flash-popup {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #222;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.flash-popup button {
+    margin-top: 8px;
+    background: hotpink;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Cart Page Layout */
+.cart-page {
+    max-width: 900px;
+    margin: auto;
+    padding: 40px 20px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.cart-page h1 {
+    margin-bottom: 30px;
+}
+
+/* Cart Item */
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.cart-item img {
+    width: 100px;
+    border-radius: 8px;
+}
+
+.cart-info {
+    flex: 1;
+    margin-left: 20px;
+    text-align: left;
+}
+
+.cart-info button {
+    background: crimson;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Empty Cart */
+.empty-cart {
+    padding: 60px 20px;
+    background: #fff0f6;
+    border-radius: 12px;
+}
+
+.empty-icon {
+    font-size: 60px;
+    margin-bottom: 15px;
+}
+
+/* Buttons */
+.cart-actions {
+    margin-top: 30px;
+}
+
+.cart-actions button {
+    margin: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: hotpink;
+    color: white;
+}
+
+/* Add Items Pill Button */
+.add-items-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 25px;
+    border-radius: 50px;
+    background: hotpink;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.add-items-btn:hover {
+    background: deeppink;
+    transform: scale(1.05);
+}
+
+.cart-shake{
+animation:cartShake 1s ease;
+}
+
+@keyframes cartShake{
+
+0%{transform:translate(0,0);}
+10%{transform:translate(2px,-2px);}
+20%{transform:translate(-2px,1px);}
+30%{transform:translate(3px,2px);}
+40%{transform:translate(-3px,-1px);}
+50%{transform:translate(2px,3px);}
+60%{transform:translate(-2px,-3px);}
+70%{transform:translate(3px,1px);}
+80%{transform:translate(-3px,2px);}
+90%{transform:translate(2px,-2px);}
+100%{transform:translate(0,0);}
+
+}
+
+.cart-summary{
+
+margin:40px auto;
+padding:25px;
+
+background:#fff5f9;
+
+border-radius:12px;
+
+box-shadow:0 6px 16px rgba(0,0,0,0.08);
+
+max-width:400px;
+
+text-align:center;
+}
+
+.order-btn{
+
+margin-top:15px;
+width:100%;
+
+background:#ff2f7d;
+
+color:white;
+
+border:none;
+
+padding:14px;
+
+border-radius:8px;
+
+font-size:16px;
+
+cursor:pointer;
+
+}
+
+.order-btn:hover{
+
+background:#e91e63;
+
+}
+.cart-container-box{
+
+min-height:200px;
+
+}

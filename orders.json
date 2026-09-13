@@ -1,0 +1,143 @@
+{"Mansi": [
+    {
+        "date": "1/4/2026, 10:07:53 am",
+        "delivery": 100,
+        "total": 2183,
+        "address": "37A/12 Madhu Nagar Agra",
+        "coupon": "BEAUTY200",
+        "subtotal": 1935,
+        "discount": 200,
+        "tax": 348,
+        "payment": "cod",
+        "id": "ORD1775018273242",
+        "items": [
+            {
+                "image": "http://localhost:8080/images/lipstick.jpg",
+                "price": 499,
+                "name": "More Than Glitter Lipstick"
+            },
+            {
+                "image": "http://localhost:8080/images/eyeshadow.jpg",
+                "price": 399,
+                "name": "Chrome & Matte Twin Eyeshadow"
+            },
+            {
+                "image": "http://localhost:8080/images/foundation.jpg",
+                "price": 499,
+                "name": "Airbrush Foundation"
+            },
+            {
+                "image": "http://localhost:8080/images/mufixer.jpg",
+                "price": 289,
+                "name": "Makeup Fixer"
+            },
+            {
+                "image": "http://localhost:8080/images/concealer.jpg",
+                "price": 249,
+                "name": "Liduid Concealer"
+            }
+        ],
+        "user": "Mansi"
+    },
+    {
+        "date": "17/4/2026, 11:41:50 am",
+        "delivery": 100,
+        "total": 1160,
+        "address": "37A/12 Madhu Nagar Agra",
+        "coupon": null,
+        "subtotal": 898,
+        "discount": 0,
+        "tax": 162,
+        "payment": "cod",
+        "id": "ORD1776406310817",
+        "items": [
+            {
+                "image": "http://localhost:8080/images/eyeshadow.jpg",
+                "price": 399,
+                "name": "Chrome & Matte Twin Eyeshadow"
+            },
+            {
+                "image": "http://localhost:8080/images/foundation.jpg",
+                "price": 499,
+                "name": "Airbrush Foundation"
+            }
+        ],
+        "user": "Mansi"
+    },
+    {
+        "date": "7/8/2026, 12:15:20 pm",
+        "delivery": 100,
+        "total": 3656,
+        "address": "37A/12 Madhu Nagar Agra",
+        "coupon": "BEAUTY200",
+        "subtotal": 3183,
+        "discount": 200,
+        "tax": 573,
+        "payment": "cod",
+        "id": "ORD1786085120131",
+        "items": [
+            {
+                "image": "http://localhost:8080/images/ar2.jpg",
+                "price": 269,
+                "name": "Jelly Bloom Ph Lip Balm"
+            },
+            {
+                "image": "http://localhost:8080/images/fixer.jpg",
+                "price": 369,
+                "name": "Glow Up Makeup Fixer"
+            },
+            {
+                "image": "http://localhost:8080/images/lipstick.jpg",
+                "price": 499,
+                "name": "More Than Glitter Lipstick"
+            },
+            {
+                "image": "http://localhost:8080/images/concealer.jpg",
+                "price": 249,
+                "name": "Liduid Concealer"
+            },
+            {
+                "image": "http://localhost:8080/images/perfume1.jpg",
+                "price": 999,
+                "name": "She Leads Eau De Parfum"
+            },
+            {
+                "image": "http://localhost:8080/images/lip1.jpg",
+                "price": 349,
+                "name": "Pure Lusture Lipstick",
+                "category": "lip"
+            },
+            {
+                "image": "http://localhost:8080/images/eye2.jpg",
+                "price": 449,
+                "name": "Holographic Eyelinear"
+            }
+        ],
+        "user": "Mansi"
+    },
+    {
+        "date": "31/8/2026, 11:29:39 am",
+        "delivery": 100,
+        "total": 1160,
+        "address": "37A/12 Madhu Nagar Agra",
+        "coupon": null,
+        "subtotal": 898,
+        "discount": 0,
+        "tax": 162,
+        "payment": "cod",
+        "id": "ORD1788155979794",
+        "items": [
+            {
+                "image": "http://localhost:8080/images/lipstick.jpg",
+                "price": 499,
+                "name": "More Than Glitter Lipstick"
+            },
+            {
+                "image": "http://localhost:8080/images/eyeshadow.jpg",
+                "price": 399,
+                "name": "Chrome & Matte Twin Eyeshadow"
+            }
+        ],
+        "user": "Mansi"
+    }
+]}

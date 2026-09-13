@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Your Cart</title>
+
+    <link rel="stylesheet" href="/css/cart.css">
+
+</head>
+
+<body>
+
+<div class="cart-page">
+
+    <h1 class="cart-title">
+        🛍️ Your Shopping Cart
+    </h1>
+
+    <div id="cart-container" class="cart-container-box"></div>
+
+    <div class="cart-actions">
+
+        <button id="clear-cart-btn">Clear Cart</button>
+
+        <button id="continue-shopping-btn">Continue Shopping</button>
+
+    </div>
+
+    <div id="cart-summary" class="cart-summary" style="display:none;">
+
+        <h3>Order Summary</h3>
+
+        <p>Subtotal : ₹<span id="subtotal">0</span></p>
+
+        <p>GST (18%) : ₹<span id="tax">0</span></p>
+
+        <p>Delivery : ₹<span id="delivery">0</span></p>
+
+        <hr>
+
+        <h2>Total : ₹<span id="total">0</span></h2>
+
+        <button id="order-now-btn" class="order-btn">
+            Order Now
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+    document.getElementById("continue-shopping-btn").onclick=function(){
+
+    window.location.href="/goof.html";
+
+    }
+
+</script>
+
+<script src="/js/cart.js"></script>
+<script>
+    window.addEventListener("pageshow", function(event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    });
+</script>
+</body>
+
+</html>
