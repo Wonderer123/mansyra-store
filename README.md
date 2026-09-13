@@ -33,33 +33,57 @@ vanilla HTML/CSS/JS on the front and a tiny, framework-free Java server on the b
 
 ---
 
-## 🚀 Quick start
+## 🚀 Run it on your computer
 
-> Requires a **JDK 17 or newer**. Check with `java -version`.
+You only need **Java**. No database, no npm, nothing else to install.
 
-**Windows** — double-click `start.bat`, or:
+**1. Install Java (JDK 17 or newer)**
 
-```bat
-javac -cp .;json-20240303.jar app\*.java
-java  -cp .;json-20240303.jar app.Main
+Download it from [adoptium.net](https://adoptium.net/temurin/releases/?version=21) and run the
+installer. Then open a terminal (Command Prompt on Windows) and check it works:
+
+```
+java -version
 ```
 
-**macOS / Linux**:
+You should see a version number like `21.x.x`.
 
-```sh
-javac -cp .:json-20240303.jar app/*.java
-java  -cp .:json-20240303.jar app.Main
+**2. Get the code**
+
+Either click the green **Code** button above → **Download ZIP** and unzip it, or:
+
+```
+git clone https://github.com/Wonderer123/mansyra-store.git
 ```
 
-Open **http://localhost:8080** and sign in with the demo account:
+**3. Start the server**
+
+- **Windows:** open the project folder and double-click **`start.bat`**. It compiles the
+  code, starts the server and opens the site in your browser.
+- **macOS / Linux:** open a terminal *inside the project folder* and run:
+
+  ```sh
+  javac -cp .:json-20240303.jar app/*.java
+  java  -cp .:json-20240303.jar app.Main
+  ```
+
+**4. Open the site**
+
+Go to **http://localhost:8080** in your browser. To try the cart and orders, sign in with the
+demo account:
 
 ```
 email:    mansi@mansyra.com   (or phone 1234567890)
 password: mansi@123
 ```
 
-> ⚠️ Start the server **from this folder**. It looks for `static/` and the `*.json` files
-> relative to the working directory.
+To stop the server, press `Ctrl + C` in the terminal window (or close it).
+
+> ⚠️ Always start the server **from the project folder**. It looks for `static/` and the
+> `*.json` files next to it.
+>
+> 💡 If `java` is "not recognized" after installing, close and reopen the terminal, or restart
+> your computer, so the new PATH is picked up.
 
 ---
 
